@@ -1,3 +1,5 @@
+mod news;
+
 #[macro_use] extern crate rocket;
 
 #[get("/")]
@@ -7,12 +9,16 @@ fn index() -> &'static str {
 
 #[get("/ping")]
 fn ping() -> &'static str {
-    "Hello, world! Ping Example"
+    let a = "one";
+    let b = "two";
+    println!("{}-{}-{}", "Hello, world! Ping Example", a, b);
+    let n1:news::News = news::all_news();
+    return &*n1.short_description;
 }
 
 #[get("/health")]
 fn health() -> &'static str {
-    "Hello, world! Health Example"
+    return "Hello, world! Health Example"
 }
 
 
