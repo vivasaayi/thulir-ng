@@ -13,7 +13,7 @@ fn ping() -> &'static str {
     let b = "two";
     println!("{}-{}-{}", "Hello, world! Ping Example", a, b);
     let n1:news::News = news::all_news();
-    return &*n1.short_description;
+    return ""
 }
 
 #[get("/health")]
