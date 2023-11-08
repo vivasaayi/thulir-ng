@@ -1,20 +1,45 @@
 use std::collections::HashMap;
+use serde::{Deserialize, Serialize};
 
 pub struct News {
     pub short_description: String
 }
 
-async fn test_req() -> Result<i32, &'static str > {
+#[derive(Serialize, Deserialize, Debug)]
+struct Rendered {
+    rendered: String
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct WordPressPost {
+    id: i32,
+    date: String,
+    date_gmt: String,
+    guid: Rendered,
+    modified: String,
+    modified_gmt: String,
+    slug: String,
+    status: String,
+    // type: String,
+    link: String,
+    title: Rendered,
+    content: Rendered,
+    excerpt: Rendered,
+    author: i32,
+    tags: Vec<String>,
+
+}
+
+async fn test_req() -> core::result::Result<i32, &'static str > {
     println!("Making HTTP Request");
     let resp = reqwest::get("https://rajanpanneerselvam.com/wp-json/wp/v2/posts")
         .await.unwrap();
 
-    // let response_text = resp.text().await.unwrap();
-    // println!("{:#?}", response_text);
+    let response_text = resp.text().await.unwrap();
+    println!("{:#?}", response_text);
 
-    let parsed_response = resp.json::<serde_json::Value>()
-        .await.unwrap();
-
+    let parsed_response: Vec<WordPressPost> = serde_json::from_str(&response_text)
+        .unwrap();
 
     println!("Response Received");
     println!("{:#?}", parsed_response);

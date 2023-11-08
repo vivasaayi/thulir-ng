@@ -1726,6 +1726,7 @@ dependencies = [
  "reqwest",
  "rocket",
  "scraper",
+ "serde",
  "serde_json",
  "tokio",
 ]
