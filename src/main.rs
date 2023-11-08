@@ -1,22 +1,17 @@
 mod news;
 
 use rocket::fs::FileServer;
+use rocket::serde::{Serialize, json::Json};
 
 #[macro_use] extern crate rocket;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
-
 #[get("/ping")]
-async fn ping() -> &'static str {
+async fn ping() -> Json<Vec<news::WordPressPost>> {
     let a = "one";
     let b = "two";
     println!("{}-{}-{}", "Hello, world! Ping Example", a, b);
     let n1:Vec<news::WordPressPost> = news::all_news().await.unwrap();
-    let str_data =serde_json::to_string(&n1).unwrap();
-    str_data.leak()
+    Json(n1)
 }
 
 #[get("/health")]
@@ -29,5 +24,5 @@ fn health() -> &'static str {
 fn rocket() -> _ {
     rocket::build()
         .mount("/", FileServer::from("web/build/"))
-        .mount("/api", routes![index,ping,health])
+        .mount("/api", routes![ping,health])
 }
