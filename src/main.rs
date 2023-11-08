@@ -1,5 +1,7 @@
 mod news;
 
+use rocket::fs::FileServer;
+
 #[macro_use] extern crate rocket;
 
 #[get("/")]
@@ -26,5 +28,6 @@ fn health() -> &'static str {
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index,ping,health])
+        .mount("/", FileServer::from("web/build/"))
+        .mount("/api", routes![index,ping,health])
 }
