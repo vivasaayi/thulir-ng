@@ -12,8 +12,9 @@ async fn ping() -> &'static str {
     let a = "one";
     let b = "two";
     println!("{}-{}-{}", "Hello, world! Ping Example", a, b);
-    let n1:news::News = news::all_news().await;
-    return ""
+    let n1:Vec<news::WordPressPost> = news::all_news().await.unwrap();
+    let str_data =serde_json::to_string(&n1).unwrap();
+    str_data.leak()
 }
 
 #[get("/health")]

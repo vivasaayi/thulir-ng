@@ -11,7 +11,7 @@ struct Rendered {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct WordPressPost {
+pub struct WordPressPost {
     id: i32,
     date: String,
     date_gmt: String,
@@ -30,7 +30,7 @@ struct WordPressPost {
 
 }
 
-async fn test_req() -> core::result::Result<i32, &'static str > {
+async fn test_req() -> core::result::Result<Vec<WordPressPost>, &'static str > {
     println!("Making HTTP Request");
     let resp = reqwest::get("https://rajanpanneerselvam.com/wp-json/wp/v2/posts")
         .await.unwrap();
@@ -44,14 +44,16 @@ async fn test_req() -> core::result::Result<i32, &'static str > {
     println!("Response Received");
     println!("{:#?}", parsed_response);
 
-    return Result::Ok(1);
+    return Result::Ok(parsed_response);
 }
 
-pub async fn all_news() -> News{
-    let result = test_req().await.unwrap();
-    println!("{:#?}", result);
+pub async fn all_news() -> core::result::Result<Vec<WordPressPost>, &'static str >{
+    let posts = test_req().await.unwrap();
+    println!("{:#?}", posts);
 
-    let n1:News = News { short_description: String::from("AA")};
-    println!("all news");
-    return n1;
+    return Result::Ok(posts);
+
+    // let n1:News = News { short_description: String::from("AA")};
+    // println!("all news");
+    // return n1;
 }
