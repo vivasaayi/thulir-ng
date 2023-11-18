@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCol,
+    CRow,
+    CCardTitle,
+    CCardImage,
+    CCardText,
+    CCardLink
+} from '@coreui/react'
+
 import NetworkService from 'src/services/network-service';
 
 function Post({ postId }) {
@@ -23,16 +36,21 @@ function Post({ postId }) {
     initPost()
 
     function renderPostHeader() {
-        return (
-            <h1>{post.title.rendered}</h1>
-        );
+        if (post && post.title) {
+            return (
+                <>
+                    <h1>{post.title.rendered}</h1>
+                    <a href="#/dashboard">Back</a>
+                </>
+            );
+        }
+
     }
 
     function renderPost() {
         if (post && post.content) {
             return (
                 <>
-                    {renderPostHeader()}
                     <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
                 </>
             )
@@ -40,9 +58,14 @@ function Post({ postId }) {
     }
 
     return (
-        <div>
-            {renderPost()}
-        </div>
+        <CCard>
+            <CCardBody>
+                <CCardTitle>{renderPostHeader()}</CCardTitle>
+                <CCardText>
+                    {renderPost()}
+                </CCardText>
+            </CCardBody>
+        </CCard>
     );
 }
 

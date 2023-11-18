@@ -32,8 +32,8 @@ function PostSummary({ post }) {
                     <CCardText>
                         {post.excerpt.rendered}
                     </CCardText>
-                    {renderLink()}
                 </CCardBody>
+                
             </CCard>
         </div>
     );
