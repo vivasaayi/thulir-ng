@@ -34,11 +34,6 @@ const AppHeader = () => {
               Home
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink to="/news" component={NavLink}>
-              News
-            </CNavLink>
-          </CNavItem>
         </CHeaderNav>
       </CContainer>
     </CHeader>

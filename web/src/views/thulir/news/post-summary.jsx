@@ -7,24 +7,33 @@ import {
     CRow,
     CCardTitle,
     CCardImage,
-    CCardText
+    CCardText,
+    CCardLink
 } from '@coreui/react'
 
 function PostSummary({ post }) {
     function renderLink(){
         const link = `#post/${post.id}`
-        return <a href={link}>View</a>
+        return <CCardLink href={link}>View</CCardLink>
     }
+    
+    function renderPostHeader() {
+        const link = `#post/${post.id}`;
+        return (
+            <a href={link}>{post.title.rendered}</a>
+        );
+    }
+
     return (
         <div>
             <CCard>
                 <CCardBody>
-                    <CCardTitle>{post.title.rendered}</CCardTitle>
+                    <CCardTitle>{renderPostHeader()}</CCardTitle>
                     <CCardText>
                         {post.excerpt.rendered}
                     </CCardText>
+                    {renderLink()}
                 </CCardBody>
-                {renderLink()}
             </CCard>
         </div>
     );

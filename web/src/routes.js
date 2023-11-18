@@ -6,7 +6,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', element: Posts },
   
   { path: '/news', name: 'News', element: Posts },
   { path: '/post/:postId', name: 'post', element: Post },

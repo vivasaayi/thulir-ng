@@ -22,10 +22,17 @@ function Post({ postId }) {
 
     initPost()
 
+    function renderPostHeader() {
+        return (
+            <h1>{post.title.rendered}</h1>
+        );
+    }
+
     function renderPost() {
         if (post && post.content) {
             return (
                 <>
+                    {renderPostHeader()}
                     <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
                 </>
             )
@@ -34,8 +41,6 @@ function Post({ postId }) {
 
     return (
         <div>
-            Hello
-            <pre>{params.postId}</pre>
             {renderPost()}
         </div>
     );
