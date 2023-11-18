@@ -1,4 +1,6 @@
 import React from 'react'
+import Posts from './views/thulir/news/posts'
+import Post from './views/thulir/news/post'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -95,6 +97,9 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+
+  { path: '/news', name: 'news', element: Posts },
+  { path: '/post/:postId', name: 'post', element: Post },
 ]
 
 export default routes
