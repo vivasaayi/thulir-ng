@@ -8,12 +8,20 @@ import PostSummary from './post-summary';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
+    const [postsLoaded, setPostsLoaded] = useState(false);
 
     async function initData() {
+        if(postsLoaded) {
+            return;
+        }
+
         const url = "/api/posts";
         const result = await NetworkService.Get(url);
+        setPostsLoaded(true);
         setPosts(result);
     }
+
+    initData()
 
     function renderPosts() {
         const postsRendered = []
@@ -28,9 +36,6 @@ function Posts() {
 
     return (
         <>
-            <CButton onClick={initData}>
-                Fetch Post
-            </CButton>
             {renderPosts()}
         </>
     );

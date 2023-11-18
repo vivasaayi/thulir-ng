@@ -1,4 +1,5 @@
 mod news;
+mod wordpress;
 
 use rocket::fs::FileServer;
 use rocket::serde::{Serialize, json::Json};
@@ -16,14 +17,14 @@ fn health() -> &'static str {
 }
 
 #[get("/posts")]
-async fn posts() -> Json<Vec<news::WordPressPost>> {
-    let n1:Vec<news::WordPressPost> = news::all_news().await.unwrap();
+async fn posts() -> Json<Vec<crate::wordpress::WordPressPost>> {
+    let n1:Vec<crate::wordpress::WordPressPost> = news::all_news().await.unwrap();
     Json(n1)
 }
 
 #[get("/post/<post_id>")]
-async fn post(post_id: String) -> Json<news::WordPressPost> {
-    let n1:news::WordPressPost = news::get_post_by_id(post_id).await.unwrap();
+async fn post(post_id: String) -> Json<crate::wordpress::WordPressPost> {
+    let n1:crate::wordpress::WordPressPost = news::get_post_by_id(post_id).await.unwrap();
     Json(n1)
 }
 
