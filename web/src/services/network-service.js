@@ -1,8 +1,8 @@
 import axios from "axios";
 
 class NetworkService {
-    static async Get() {
-        const response = await axios.get("/api/ping");
+    static async Get(url) {
+        const response = await axios.get(url);
         return response.data;
     }
 }

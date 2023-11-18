@@ -5,12 +5,12 @@ pub struct News {
     pub short_description: String
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 struct Rendered {
     rendered: String
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WordPressPost {
     id: i32,
     date: String,
@@ -45,6 +45,17 @@ async fn test_req() -> core::result::Result<Vec<WordPressPost>, &'static str > {
     println!("{:#?}", parsed_response);
 
     return Result::Ok(parsed_response);
+}
+
+pub async fn get_post_by_id(post_id: String) -> core::result::Result<WordPressPost, &'static str >{
+    println!("Fetching post by id: {:#?}", post_id);
+
+    let posts = test_req().await.unwrap();
+    let post = &posts[0];
+
+    println!("post: {:#?}", post);
+
+    return Result::Ok(post.clone());
 }
 
 pub async fn all_news() -> core::result::Result<Vec<WordPressPost>, &'static str >{

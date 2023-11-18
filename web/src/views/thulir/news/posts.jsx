@@ -10,7 +10,8 @@ function Posts() {
     const [posts, setPosts] = useState([]);
 
     async function initData() {
-        const result = await NetworkService.Get();
+        const url = "/api/posts";
+        const result = await NetworkService.Get(url);
         setPosts(result);
     }
 
