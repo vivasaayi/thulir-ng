@@ -10,7 +10,7 @@ use html5ever::driver::ParseOpts;
 use html5ever::tendril::TendrilSink;
 use html5ever::tree_builder::TreeBuilderOpts;
 use html5ever::{parse_document, serialize};
-use rcdom::{RcDom, SerializableHandle};
+use rcdom::{RcDom, SerializableHandle, Handle};
 use rocket::futures::AsyncReadExt;
 
 pub fn parse_html(data:&String) -> RcDom{
@@ -30,10 +30,24 @@ pub fn parse_html(data:&String) -> RcDom{
         .unwrap();
 
     let document: SerializableHandle = dom.document.clone().into();
-    serialize(&mut io::stdout(), &document, Default::default())
-        .ok()
-        .expect("serialization failed");
+    // serialize(&mut io::stdout(), &document, Default::default())
+    //     .ok()
+    //     .expect("serialization failed");
 
+    print_node(&dom.document);
 
     return dom;
+}
+
+fn print_node(document:&Handle) {
+    let data:&core::cell::Ref<Vec<Handle>> = &document.children.borrow();
+
+    if(data.len() > 0) {
+        for item in data.iter() {
+            print_node(item)
+        }
+    } else {
+        let data = &document.clone().data;
+        println!("{data:?}");
+    }
 }
