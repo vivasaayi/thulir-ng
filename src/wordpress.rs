@@ -12,7 +12,7 @@ pub struct WordPressPost {
     status: String,
     // type: String,
     link: String,
-    title: Rendered,
+    pub title: Rendered,
     content: Rendered,
     excerpt: Rendered,
     author: i32,
@@ -21,7 +21,7 @@ pub struct WordPressPost {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Rendered {
-    rendered: String
+    pub rendered: String
 }
 
 fn get_blog_base_url() -> String {
@@ -47,7 +47,6 @@ pub async fn fetch_post_by_id(post_id: String) -> core::result::Result<crate::wo
 
     let parsed_response: crate::wordpress::WordPressPost = serde_json::from_str(&response_text)
         .unwrap();
-
 
     return Result::Ok(parsed_response);
 }

@@ -1,3 +1,5 @@
+use crate::htmlparser;
+
 pub struct News {
     pub short_description: String
 }
@@ -19,10 +21,12 @@ async fn test_req() -> core::result::Result<Vec<crate::wordpress::WordPressPost>
     return Result::Ok(parsed_response);
 }
 
-pub async fn get_post_by_id(post_id: String) -> core::result::Result<crate::wordpress::WordPressPost, &'static str >{
+pub async fn get_post_by_id(post_id: String) -> crate::wordpress::WordPressPost {
     let post = crate::wordpress::fetch_post_by_id(post_id);
 
-    return post.await;
+    let post:crate::wordpress::WordPressPost = post.await.unwrap();
+
+    return post;
 }
 
 pub async fn all_news() -> core::result::Result<Vec<crate::wordpress::WordPressPost>, &'static str >{
@@ -30,6 +34,7 @@ pub async fn all_news() -> core::result::Result<Vec<crate::wordpress::WordPressP
     println!("{:#?}", posts);
 
     return Result::Ok(posts);
+
 
     // let n1:News = News { short_description: String::from("AA")};
     // println!("all news");
