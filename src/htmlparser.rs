@@ -34,7 +34,7 @@ pub fn parse_html(data:&String) -> RcDom{
     //     .ok()
     //     .expect("serialization failed");
 
-    print_node(&dom.document);
+    walk(4, &dom.document);
 
     return dom;
 }
@@ -49,5 +49,45 @@ fn print_node(document:&Handle) {
     } else {
         let data = &document.clone().data;
         println!("{data:?}");
+    }
+}
+
+fn walk(indent: usize, handle: &Handle) {
+    let node = handle;
+    for _ in 0..indent { print!(" "); }
+    match node.data {
+        rcdom::NodeData::Document => println!("#Document"),
+
+        rcdom::NodeData::Doctype {
+            ref name,
+            ref public_id,
+            ref system_id,
+        } => println!("<!DOCTYPE {} \"{}\" \"{}\">", name, public_id, system_id),
+
+        rcdom::NodeData::Text { ref contents } => {
+            println!("#text: {}", contents.borrow().escape_default())
+        },
+
+        rcdom::NodeData::Comment { ref contents } => println!("<!-- {} -->", contents.escape_default()),
+
+        rcdom::NodeData::Element {
+            ref name,
+            ref attrs,
+            ..
+        } => {
+            // assert!(name.ns == ns!(html));
+            print!("<{}", name.local);
+            for attr in attrs.borrow().iter() {
+                // assert!(attr.name.ns == ns!());
+                print!(" {}=\"{}\"", attr.name.local, attr.value);
+            }
+            println!(">");
+        },
+
+        rcdom::NodeData::ProcessingInstruction { .. } => unreachable!(),
+    }
+
+    for child in node.children.borrow().iter() {
+        walk(indent + 4, child);
     }
 }
